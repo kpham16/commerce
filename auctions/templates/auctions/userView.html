@@ -1,0 +1,63 @@
+{%extends "auctions/page.html" %}
+
+{%block bidBox%}
+<div class = "bidBox">
+    This item currently has {{numBids}} bids.
+    {%if currentBid %}
+        <h5>Current Bid: ${{currentBid}}</h5>
+        <h6>Current Bidder: {{ currentBidder }}</h6>
+        Starting Bid: ${{listing.startingBid}}
+        <br><br>
+        <h6>All bids:</h6>
+        {% for bid in bids%}
+            {{bid.bidder}}: ${{bid.value}}
+            <br>
+        {% endfor %}
+    {%else%}
+        <h5>Starting Bid: ${{listing.startingBid}}</h5>
+        <h6>Your item has no bids yet.</h6>
+    {%endif%}
+
+    <br>
+    {% if isOpen %}
+        <form action = "{% url 'close' listing.title listing.id %}">
+            {%csrf_token%}
+            <button type = "submit" class = "submit">Close Listing</button>
+        </form>
+    {% else %}
+        <h6>This listing is closed.</h6>
+    {% endif %}
+</div>
+<br>
+{%endblock%}
+
+{%block bidBox2%}
+    <div class = "bidBox2">
+        This item currently has {{numBids}} bids.
+        {%if currentBid %}
+            <h5>Current Bid: ${{currentBid}}</h5>
+            <h6>Current Bidder: {{ currentBidder }}</h6>
+            Starting Bid: ${{listing.startingBid}}
+            <br><br>
+            <h6>All bids:</h6>
+            {% for bid in bids%}
+                {{bid.bidder}}: ${{bid.value}}
+                <br>
+            {% endfor %}
+        {%else%}
+            <h5>Starting Bid: ${{listing.startingBid}}</h5>
+            <h6>Your item has no bids yet.</h6>
+        {%endif%}
+
+        <br>
+        {% if isOpen %}
+            <form action = "{% url 'close' listing.title listing.id %}">
+                {%csrf_token%}
+                <button type = "submit" class = "submit">Close Listing</button>
+            </form>
+        {% else %}
+            <h6>This listing is closed.</h6>
+        {% endif %}
+    </div>
+{%endblock%}
+

@@ -1,0 +1,38 @@
+{% extends "auctions/layout.html" %}
+
+{%block body%}
+    {%if posts %}
+        {% for post in posts%}
+            <div class = "listing"> 
+                {%if post.image%}
+                    <img src= "{{ post.image.url }}" class = "scrollView">
+                {% endif %}
+                <div class = "inside">
+                    <h4>
+                        <a id = "leftTitle" href = "{% url 'page' post.title post.id %}">{{post.title}}</a>
+                        {%if post.bids.all %}
+                            <span class = "rightPrice">Current Bid: ${{post.currentBid}}</span>
+                        {%else%}
+                            <span class = "rightPrice">Starting Bid: ${{post.startingBid}}</span>
+                        {%endif%}
+                    </h4>
+                    <br>
+                    {% if post.isOpen %}
+                        <div class = "open">Open</div>
+                    {%else%}
+                        <div class = "closed">Closed</div>
+                    {%endif%}
+                    <div class = "info">
+                        Category: {{post.category.category}}
+                        <br>
+                        Posted by : {{post.user}}
+                    </div>
+                    {{post.description}}
+                </div>
+            </div>
+            <br>
+        {% endfor%}
+    {% else%}
+        No posts yet.
+    {% endif %}
+{% endblock %}

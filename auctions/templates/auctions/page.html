@@ -1,0 +1,66 @@
+{% extends "auctions/pageLayout.html" %}
+
+{% block watchlist %}
+    <form action = "{% url 'add' listing.title listing.id%}">
+        {%csrf_token%}
+        <button class = "add" type = "submit">Add to Watchlist</button>
+    </form>
+{% endblock %}
+
+{%block bidBox%}
+    <div class = "bidBox">
+        This item currently has {{numBids}} bids.
+        {%if currentBid%}
+            <h5>Current Bid: ${{currentBid}}</h5>
+            Starting Bid: ${{listing.startingBid}}
+            <br>
+        {%else%}
+            <h5>Starting Bid: ${{listing.startingBid}}</h5>
+        {%endif%}
+        <br>
+        {% if isOpen%}
+            <form action = "{% url 'place_bid' listing.title listing.id%}" method = 'post'>
+                {%csrf_token%}
+                Enter a bid:
+                <input type = "number" name = "bidValue" step = "0.01" >
+                <input type = "submit" class = "submit">
+            </form>
+            {% if message %}
+                {{ message }}
+            {%endif%}
+        {%else%}
+            <h6>This listing is closed.</h6>
+        {%endif%}
+    </div>
+    <br>
+{%endblock%}
+
+{%block bidBox2%}
+    <div class = "bidBox2">
+        This item currently has {{numBids}} bids.
+        {%if currentBid%}
+            <h5>Current Bid: ${{currentBid}}</h5>
+            Starting Bid: ${{listing.startingBid}}
+            <br>
+        {%else%}
+            <h5>Starting Bid: ${{listing.startingBid}}</h5>
+        {%endif%}
+        <br>
+        {% if isOpen%}
+            <form action = "{% url 'place_bid' listing.title listing.id%}" method = 'post'>
+                {%csrf_token%}
+                Enter a bid:
+                <input type = "number" name = "bidValue" step = "0.01" >
+                <input type = "submit" class = "submit">
+            </form>
+            {% if message %}
+                {{ message }}
+            {%endif%}
+        {%else%}
+            <h6>This listing is closed.</h6>
+        {%endif%}
+    </div>
+    <br>
+
+{%endblock%}
+

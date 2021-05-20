@@ -1,0 +1,64 @@
+{%extends "auctions/layout.html"%}
+
+{%block body%}
+    <h3>Listing: {{listing.title}}</h3>
+    {% if isOpen %}
+        <div class = "open">
+            Open
+        </div>
+    {%else%}
+        <div class = "closed">
+            Closed
+        </div>
+    {%endif%}
+
+    {% if page %}
+        {% block watchlist %}
+        {% endblock %}
+    {% endif %}
+
+    {%if isWinner %}
+        <h2>Congrats! You have won this auction!</h2>
+    {%endif%}
+    {% if listing.image%}
+        <div class = "inline">
+            <img src = "{{ listing.image.url }}" class = "pageView">
+            {%block bidBox%}
+            {%endblock%}
+        </div>
+    {%else%}
+        {%block bidBox2%}
+        {%endblock%}
+    {%endif%}
+    <br>
+    <div class= "details">
+        <h5>Details:</h5>
+        <ul>
+            <li>Listed by: {{listing.user}}</li>
+            <li>Category: {{listing.category.category}}</li>
+            <li>Description: {{listing.description}}</li>
+        </ul>
+    </div>
+    <br>
+    <div class = "details">
+        <h5>Comments:</h5>
+        {%if comments%}
+            {%for comment in comments%}
+                <div id = "comment">
+                    <h6>{{comment.user}}</h6> 
+                    {{ comment.comment }}
+                </div>
+                <br>
+            {% endfor %}
+        {%else%}
+            No comments.
+            <br>
+        {% endif %}
+        <br>
+        <form action = "{% url 'comment' listing.title listing.id%}" method = "post">
+            {% csrf_token %}
+            {{ commentForm.comment }}
+            <input type = "submit" class = "submit">
+        </form>
+    </div>
+{%endblock%}

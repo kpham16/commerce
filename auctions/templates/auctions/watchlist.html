@@ -1,0 +1,37 @@
+{% extends "auctions/layout.html"%}
+
+{% block body%}
+    {% for listing in listings%}
+        <div class = "listing"> 
+            {%if listing.image%}
+                    <img src= "{{ listing.image.url }}" class = "scrollView">
+            {% endif %}
+            <div class = "inside">
+                <h4>
+                    <a id = "leftTitle" href = "{% url 'page' listing.title listing.id %}">{{listing.title}}</a>
+                    {%if listing.bids.all %}
+                        <span class = "rightPrice">Current Bid: ${{listing.currentBid}}</span>
+                    {%else%}
+                        <span class = "rightPrice">Starting Bid: ${{listing.startingBid}}</span>
+                    {%endif%}
+                </h4>
+                <br>
+                {% if listing.isOpen %}
+                    <div class = "open">Open</div>
+                {%else%}
+                    <div class = "closed">Closed</div>
+                {%endif%}
+                <div class = "info">
+                    Category: {{listing.category.category}}
+                    <br>
+                    Posted by : {{listing.user}}
+                </div>
+                {{listing.description}}
+            </div>
+            <form action = "{% url 'remove' listing.title listing.id %}">
+                <button type = "submit" class = "add">Remove</button>
+            </form>
+        </div>
+        <br>
+    {% endfor %}
+{% endblock %}
